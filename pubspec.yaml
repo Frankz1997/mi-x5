@@ -1,0 +1,37 @@
+name: mirage_x5
+description: Control local por Wi-Fi para Mirage Inverter X5, con UI de escritorio y widget Android.
+publish_to: none
+version: 0.3.0+4
+environment:
+  sdk: '>=3.7.2 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_secure_storage: 10.0.0
+  home_widget: 0.8.1
+  tray_manager: 0.5.1
+  window_manager: 0.5.2
+  screen_retriever: 0.2.2
+  tinytuya:
+    path: vendor/tinytuya
+dev_dependencies:
+  crypto: 3.0.6
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+dependency_overrides:
+  flutter_secure_storage_windows:
+    path: vendor/flutter_secure_storage_windows
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/tray.ico
+    - assets/tray.png
+    - assets/tray.svg
+    - assets/Tabler-LICENSE.txt
+    - assets/mini-split.png
+    - assets/Roboto-LICENSE.txt
+  fonts:
+    - family: RobotoCondensed
+      fonts:
+        - asset: assets/RobotoCondensed-Regular.ttf

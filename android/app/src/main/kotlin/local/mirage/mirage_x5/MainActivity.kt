@@ -1,0 +1,5 @@
+package local.mirage.mirage_x5
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()

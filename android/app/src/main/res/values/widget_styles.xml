@@ -1,0 +1,26 @@
+<resources>
+    <string name="widget_description">Controla tu Mirage X5 sin abrir la app</string>
+    <style name="WidgetText">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">#E1E2D9</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="WidgetIcon">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:tint">#AAA68E</item>
+    </style>
+    <style name="WidgetCard">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:background">@drawable/widget_card</item>
+    </style>
+</resources>

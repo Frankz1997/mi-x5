@@ -1,0 +1,247 @@
+<style>
+  #mx-fan-alternatives { --mx-text: #e1e2d9; --mx-muted: #afb0a4; --mx-panel: #363832; --mx-card: #22241e; --mx-pop: #24251f; --mx-accent: #aaa68e; --mx-track: #10120e; --mx-knob: #deded0; font-family: 'Arial Narrow', 'Segoe UI', sans-serif; color: var(--mx-text); color-scheme: dark; }
+  #mx-fan-alternatives .mx-stage { min-height: 350px; padding: 46px 12px 32px; display: grid; place-items: center; }
+  #mx-fan-alternatives .mx-app { box-sizing: border-box; width: min(440px, 100%); padding: 22px 18px 30px; border-radius: 24px; background: var(--mx-panel); box-shadow: 0 14px 32px #0003; }
+  #mx-fan-alternatives .mx-setpoint { margin-bottom: 12px; font-size: 43px; line-height: 1; letter-spacing: -2px; }
+  #mx-fan-alternatives .mx-setpoint small { font-size: 19px; letter-spacing: 0; color: var(--mx-muted); }
+  #mx-fan-alternatives .mx-temperature { height: 30px; margin-bottom: 25px; border-radius: 11px; background: linear-gradient(90deg, #77725e 43%, #151712 43%); position: relative; }
+  #mx-fan-alternatives .mx-temperature::after { content: ''; position: absolute; top: 3px; bottom: 3px; width: 20px; left: calc(43% - 10px); border-radius: 7px; background: var(--mx-knob); }
+  #mx-fan-alternatives .mx-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+  #mx-fan-alternatives .mx-tile { box-sizing: border-box; min-width: 0; height: 84px; padding: 10px; border: 0; border-radius: 11px; background: var(--mx-card); color: var(--mx-text); display: flex; flex-direction: column; align-items: flex-start; text-align: left; font: inherit; }
+  #mx-fan-alternatives .mx-tile svg { width: 21px; height: 21px; color: var(--mx-accent); margin-bottom: auto; stroke-width: 1.5; }
+  #mx-fan-alternatives .mx-caption { font-size: 12px; color: var(--mx-muted); white-space: nowrap; }
+  #mx-fan-alternatives .mx-value { margin-top: 3px; font-size: 14px; line-height: 1; }
+  #mx-fan-alternatives .mx-fan { position: relative; min-width: 0; height: 84px; --mx-bar-width: 310px; --mx-index: 0; }
+  #mx-fan-alternatives .mx-expandable { width: 100%; }
+  #mx-fan-alternatives .mx-fan.is-open { z-index: 2; }
+  #mx-fan-alternatives .mx-trigger { width: 100%; }
+  #mx-fan-alternatives .mx-fan.is-open .mx-trigger { box-shadow: inset 0 0 0 1px var(--mx-accent); }
+  #mx-fan-alternatives .mx-popup { position: absolute; bottom: 100%; left: 50%; width: min(var(--mx-bar-width), calc(100vw - 72px)); padding-bottom: 8px; transform: translateX(-50%); }
+  #mx-fan-alternatives .mx-popup[hidden] { display: none; }
+  #mx-fan-alternatives [hidden] { display: none !important; }
+  #mx-fan-alternatives .mx-bar { padding: 10px; border-radius: 13px; background: var(--mx-pop); box-shadow: 0 8px 18px #0006; transform-origin: 50% 100%; }
+  #mx-fan-alternatives .mx-rail { position: relative; height: 32px; --mx-thumb: 20px; background: linear-gradient(90deg, #6d6856 0%, #827e68 calc(var(--mx-index) * 20%), var(--mx-track) calc(var(--mx-index) * 20%)); border-radius: 10px; box-shadow: inset 0 2px 4px #0005; }
+  #mx-fan-alternatives .mx-knob { position: absolute; left: calc(var(--mx-thumb) / 2 + (100% - var(--mx-thumb)) * var(--mx-index) / 5); top: 50%; width: var(--mx-thumb); height: 26px; border-radius: 7px; background: linear-gradient(90deg, #e4e3d7, #c9c9b7); box-shadow: 0 2px 5px #0005; transform: translate(-50%, -50%); transition: left .22s ease-out; pointer-events: none; }
+  #mx-fan-alternatives .mx-range { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; margin: 0; border: 0; border-radius: inherit; appearance: none; background: transparent; z-index: 1; cursor: ew-resize; }
+  #mx-fan-alternatives .mx-range::-webkit-slider-thumb { appearance: none; width: var(--mx-thumb); height: 26px; background: transparent; border: 0; box-shadow: none; }
+  #mx-fan-alternatives .mx-range::-moz-range-thumb { width: var(--mx-thumb); height: 26px; background: transparent; border: 0; box-shadow: none; }
+  #mx-fan-alternatives .mx-range::-webkit-slider-runnable-track { background: transparent; }
+  #mx-fan-alternatives .mx-range::-moz-range-track { background: transparent; }
+  #mx-fan-alternatives .mx-labels { position: relative; height: 14px; margin: 8px 10px 0; font-size: 11px; color: var(--mx-muted); }
+  #mx-fan-alternatives .mx-labels span { position: absolute; left: calc(var(--mx-step) * 20%); transform: translateX(-50%); white-space: nowrap; }
+  #mx-fan-alternatives .mx-labels [data-active='true'] { color: var(--mx-text); }
+  #mx-fan-alternatives .mx-dots { position: absolute; inset: 0 10px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+  #mx-fan-alternatives .mx-dots span { width: 6px; height: 6px; border-radius: 50%; background: #747769; }
+  #mx-fan-alternatives .mx-fan[data-design='puntos'] .mx-rail { height: 30px; background: transparent; border-radius: 0; box-shadow: none; --mx-thumb: 18px; }
+  #mx-fan-alternatives .mx-fan[data-design='puntos'] .mx-rail::before { content: ''; position: absolute; left: 10px; right: 10px; top: 14px; height: 3px; border-radius: 3px; background: #545747; }
+  #mx-fan-alternatives .mx-fan[data-design='puntos'] .mx-knob { height: 18px; border-radius: 50%; box-shadow: 0 0 10px #deded040; }
+  #mx-fan-alternatives .mx-fan[data-design='puntos'] .mx-range::-webkit-slider-thumb { height: 18px; }
+  #mx-fan-alternatives .mx-fan[data-design='puntos'] .mx-range::-moz-range-thumb { height: 18px; }
+  #mx-fan-alternatives .mx-segments { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 2px; background: var(--mx-track); border-radius: 9px; padding: 3px; }
+  #mx-fan-alternatives .mx-segment-highlight { position: absolute; left: calc(3px + (100% - 6px) * var(--mx-index) / 6); top: 3px; bottom: 3px; width: calc((100% - 6px) / 6); background: var(--mx-knob); border-radius: 7px; transition: left .25s cubic-bezier(.22, .8, .3, 1); pointer-events: none; }
+  #mx-fan-alternatives .mx-segments button { position: relative; z-index: 1; background: transparent; color: var(--mx-muted); border: 0; padding: 10px 0; font: inherit; font-size: 11px; min-width: 0; }
+  #mx-fan-alternatives .mx-segments button[aria-pressed='true'] { color: #24251f; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-expandable { position: absolute; top: 0; left: 50%; width: 100%; height: 84px; transform: translate(-50%, 0); overflow: hidden; border-radius: 11px; background: var(--mx-card); outline: 1px solid transparent; box-shadow: 0 0 0 #0000; transition: width var(--mx-morph-duration, 380ms) cubic-bezier(.22, .8, .25, 1), height var(--mx-morph-duration, 380ms) cubic-bezier(.22, .8, .25, 1), transform var(--mx-morph-duration, 380ms) cubic-bezier(.22, .8, .25, 1), border-radius var(--mx-morph-duration, 380ms), background var(--mx-morph-duration, 380ms), outline-color var(--mx-morph-duration, 380ms), box-shadow var(--mx-morph-duration, 380ms); }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'].is-open .mx-expandable { width: min(var(--mx-bar-width), calc(100vw - 72px)); height: var(--mx-open-height, 112px); transform: translate(-50%, -32px); border-radius: 14px; background: #2b2d25; outline-color: #626457; box-shadow: 0 10px 24px #0009; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-expandable:has(:focus-visible) { outline: 2px solid var(--mx-accent); outline-offset: 3px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-popup { position: static; width: auto; padding: 0; transform: none; opacity: 1; transition: opacity .16s ease .12s; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-popup[hidden] { display: block !important; opacity: 0; visibility: hidden; pointer-events: none; transition-delay: 0s; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-bar { background: transparent; padding: 6px 12px 13px; box-shadow: none; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger { position: relative; height: 84px; border-radius: 0; background: transparent; box-shadow: none; transition: height var(--mx-morph-duration, 380ms) cubic-bezier(.22, .8, .25, 1); }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger svg, #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger .mx-caption, #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger .mx-value { position: absolute; left: 10px; margin: 0; transition: left var(--mx-morph-duration, 380ms) cubic-bezier(.22, .8, .25, 1), top var(--mx-morph-duration, 380ms) cubic-bezier(.22, .8, .25, 1); }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger svg { top: 10px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger .mx-caption { top: 45px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger .mx-value { top: 64px; width: 70px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'].is-open .mx-trigger { height: 48px; box-shadow: none; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'].is-open .mx-trigger svg { left: 12px; top: 13px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'].is-open .mx-trigger .mx-caption { left: 42px; top: 16px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'].is-open .mx-trigger .mx-value { left: calc(100% - 82px); top: 16px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-rail { height: 23px; border-radius: 7px; --mx-thumb: 14px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-knob { height: 17px; border-radius: 4px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-range::-webkit-slider-thumb { height: 17px; }
+  #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-range::-moz-range-thumb { height: 17px; }
+  @media (max-width: 380px) { #mx-fan-alternatives .mx-stage { padding-inline: 5px; } #mx-fan-alternatives .mx-app { padding-inline: 12px; } #mx-fan-alternatives .mx-cards { gap: 6px; } #mx-fan-alternatives .mx-tile { padding-inline: 8px; } #mx-fan-alternatives .mx-labels { display: grid; grid-template-columns: repeat(3, 1fr); height: auto; margin-inline: 0; column-gap: 12px; row-gap: 6px; text-align: center; } #mx-fan-alternatives .mx-labels span { position: static; transform: none; } #mx-fan-alternatives .mx-segments { grid-template-columns: repeat(3, minmax(0, 1fr)); } #mx-fan-alternatives .mx-segment-highlight { display: none; } #mx-fan-alternatives .mx-segments button[aria-pressed='true'] { background: var(--mx-knob); border-radius: 7px; } }
+  @media (pointer: coarse) { #mx-fan-alternatives .mx-rail { min-height: 44px; } #mx-fan-alternatives .mx-segments button { min-height: 44px; } }
+  @media (prefers-reduced-motion: reduce) { #mx-fan-alternatives .mx-knob, #mx-fan-alternatives .mx-segment-highlight, #mx-fan-alternatives .mx-trigger, #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-expandable, #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger, #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger svg, #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger .mx-caption, #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-trigger .mx-value, #mx-fan-alternatives .mx-fan[data-design='integrada'] .mx-popup { transition: none; } }
+</style>
+<div id="mx-fan-alternatives">
+  <template id="mx-fan-design-template">
+    <div class="mx-app" aria-label="Controles de Mi X5">
+      <div class="mx-setpoint" aria-hidden="true">23<small>°C</small></div>
+      <div class="mx-temperature" aria-hidden="true"></div>
+      <div class="mx-cards">
+        <div class="mx-tile"><i data-lucide="snowflake" aria-hidden="true"></i><span class="mx-caption">Modo</span><span class="mx-value">Frío</span></div>
+        <div class="mx-fan">
+          <div class="mx-expandable">
+          <button class="mx-tile mx-trigger cursor-interaction" type="button" aria-label="Seleccionar velocidad del ventilador" aria-expanded="false"><i data-lucide="fan" aria-hidden="true"></i><span class="mx-caption">Ventilador</span><span class="mx-value" aria-live="polite">Auto</span></button>
+          <div class="mx-popup" hidden><div class="mx-bar">
+            <div class="mx-rail"><div class="mx-dots" aria-hidden="true" hidden><span></span><span></span><span></span><span></span><span></span><span></span></div><span class="mx-knob" aria-hidden="true"></span><input class="mx-range" type="range" min="0" max="5" step="1" value="0" aria-label="Velocidad del ventilador" aria-valuetext="Auto"></div>
+            <div class="mx-labels" aria-hidden="true"><span>Auto</span><span>Silencioso</span><span>Bajo</span><span>Medio</span><span>Alto</span><span>Turbo</span></div>
+          </div></div>
+          </div>
+        </div>
+        <div class="mx-tile"><i data-lucide="wind" aria-hidden="true"></i><span class="mx-caption">Flujo de aire</span><span class="mx-value">Vertical</span></div>
+      </div>
+    </div>
+  </template>
+  <div class="viz-row" role="group" aria-label="Elegir alternativa de diseño">
+    <button class="btn" type="button" data-design-choice="carril" aria-pressed="false" aria-controls="mx-design-carril">Carril compacto</button>
+    <button class="btn" type="button" data-design-choice="puntos" aria-pressed="false" aria-controls="mx-design-puntos">Puntos</button>
+    <button class="btn" type="button" data-design-choice="segmentos" aria-pressed="false" aria-controls="mx-design-segmentos">Segmentos</button>
+    <button class="btn" type="button" data-design-choice="integrada" aria-pressed="true" aria-controls="mx-design-integrada">Tarjeta expandible</button>
+  </div>
+  <div class="viz-dotted-background" aria-label="Alternativas del selector de ventilador">
+    <section id="mx-design-carril" class="mx-stage" data-variant="Carril compacto" data-design="carril" aria-label="Carril compacto con salto" hidden></section>
+    <section id="mx-design-puntos" class="mx-stage" data-variant="Puntos" data-design="puntos" aria-label="Escala de puntos con resorte" hidden></section>
+    <section id="mx-design-segmentos" class="mx-stage" data-variant="Segmentos" data-design="segmentos" aria-label="Barra segmentada con deslizamiento" hidden></section>
+    <section id="mx-design-integrada" class="mx-stage" data-variant="Tarjeta expandible" data-design="integrada" aria-label="Tarjeta expandible con barra integrada"></section>
+  </div>
+</div>
+<script>
+(() => {
+  const root = document.getElementById('mx-fan-alternatives');
+  const template = root.querySelector('template');
+  const stages = [...root.querySelectorAll('[data-variant]')];
+  const designButtons = [...root.querySelectorAll('[data-design-choice]')];
+  designButtons.forEach(button => {
+    button.onclick = () => {
+      stages.forEach(stage => { stage.hidden = stage.dataset.design !== button.dataset.designChoice; });
+      designButtons.forEach(choice => choice.setAttribute('aria-pressed', String(choice === button)));
+    };
+  });
+  const labels = ['Auto', 'Silencioso', 'Bajo', 'Medio', 'Alto', 'Turbo'];
+  const defaults = { carril: 'salto', puntos: 'resorte', segmentos: 'deslizamiento', integrada: 'resorte' };
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const states = new Map();
+  const saved = window.openai?.widgetState?.modelContent?.fanAlternatives || {};
+  const restoreIndex = value => Number.isInteger(value) && value >= 0 && value < labels.length ? value : 0;
+  function restore(state, value = {}) {
+    state.index = restoreIndex(value.index);
+    if (Number.isFinite(value.width)) state.width = Math.max(270, Math.min(340, value.width));
+    if (Number.isFinite(value.duration)) state.duration = Math.max(180, Math.min(420, value.duration));
+    if (['salto', 'resorte', 'deslizamiento'].includes(value.animation)) state.animation = value.animation;
+  }
+  function remember() {
+    const choices = Object.fromEntries([...states].map(([key, { state }]) => [key, { index: state.index, animation: state.animation, width: state.width, duration: state.duration }]));
+    window.openai?.setWidgetState?.({ modelContent: { fanAlternatives: choices } })?.catch(() => {});
+  }
+  stages.forEach(stage => {
+    stage.append(template.content.cloneNode(true));
+    const design = stage.dataset.design;
+    const fan = stage.querySelector('.mx-fan');
+    fan.dataset.design = design;
+    fan.setAttribute('aria-label', stage.dataset.variant);
+    const button = fan.querySelector('.mx-trigger');
+    const popup = fan.querySelector('.mx-popup');
+    popup.id = 'mx-fan-' + design + '-popup';
+    popup.setAttribute('role', 'group');
+    popup.setAttribute('aria-label', 'Velocidad del ventilador');
+    button.setAttribute('aria-controls', popup.id);
+    const bar = fan.querySelector('.mx-bar');
+    const expandable = fan.querySelector('.mx-expandable');
+    const rail = fan.querySelector('.mx-rail');
+    const slider = fan.querySelector('.mx-range');
+    let marker = fan.querySelector('.mx-knob');
+    const caption = button.querySelector('.mx-value');
+    const state = { index: 0, width: 310, duration: 280, animation: defaults[design] };
+    restore(state, saved[design]);
+    states.set(design, { state, render });
+    let motion;
+    let openMotion;
+    let segmentButtons = [];
+    if (design === 'puntos') fan.querySelector('.mx-dots').hidden = false;
+    if (design === 'segmentos') {
+      rail.remove();
+      fan.querySelector('.mx-labels').remove();
+      const segments = document.createElement('div');
+      segments.className = 'mx-segments';
+      segments.setAttribute('role', 'group');
+      segments.setAttribute('aria-label', 'Velocidad del ventilador');
+      marker = document.createElement('span');
+      marker.className = 'mx-segment-highlight';
+      marker.setAttribute('aria-hidden', 'true');
+      segments.append(marker);
+      segmentButtons = labels.map((label, index) => {
+        const option = document.createElement('button');
+        option.type = 'button';
+        option.className = 'cursor-interaction';
+        option.textContent = index === 1 ? 'Silenc.' : label;
+        option.setAttribute('aria-label', label);
+        option.onclick = () => choose(index);
+        segments.append(option);
+        return option;
+      });
+      bar.append(segments);
+    }
+    function render() {
+      fan.style.setProperty('--mx-index', state.index);
+      fan.style.setProperty('--mx-bar-width', state.width + 'px');
+      fan.style.setProperty('--mx-morph-duration', state.duration + 100 + 'ms');
+      caption.textContent = labels[state.index];
+      slider.value = state.index;
+      slider.setAttribute('aria-valuetext', labels[state.index]);
+      fan.querySelectorAll('.mx-labels span').forEach((label, index) => { label.style.setProperty('--mx-step', index); label.dataset.active = String(index === state.index); });
+      segmentButtons.forEach((option, index) => option.setAttribute('aria-pressed', String(index === state.index)));
+    }
+    function choose(index) {
+      if (!Number.isInteger(index) || index < 0 || index >= labels.length || index === state.index) return;
+      const before = state.index;
+      state.index = index;
+      render();
+      motion?.cancel();
+      if (!reduced.matches) {
+        const base = design === 'segmentos' ? '' : 'translate(-50%, -50%) ';
+        let frames;
+        if (state.animation === 'salto') {
+          frames = [{ transform: base + 'translateY(0)' }, { transform: base + 'translateY(-7px)', offset: .45 }, { transform: base + 'translateY(0)' }];
+        } else if (state.animation === 'resorte') {
+          const direction = Math.sign(index - before);
+          frames = [{ transform: base + 'scale(.85)' }, { transform: base + 'translateX(' + direction * 5 + 'px) scale(1.08)', offset: .65 }, { transform: base + 'scale(1)' }];
+        } else {
+          frames = [{ transform: base + 'scaleX(1)' }, { transform: base + 'scaleX(1.25) scaleY(.92)', offset: .4 }, { transform: base + 'scaleX(1)' }];
+        }
+        motion = marker.animate(frames, { duration: state.duration, easing: 'ease-out' });
+      }
+      remember();
+    }
+    function setOpen(open) {
+      const changed = popup.hidden === open;
+      popup.hidden = !open;
+      fan.classList.toggle('is-open', open);
+      button.setAttribute('aria-expanded', String(open));
+      if (!open) openMotion?.cancel();
+      if (open && changed && !reduced.matches && design !== 'integrada') {
+        openMotion?.cancel();
+        const frames = design === 'puntos' ? [{ transform: 'translateY(5px) scale(.98)' }, { transform: 'translateY(-2px) scale(1.01)', offset: .7 }, { transform: 'none' }] : design === 'segmentos' ? [{ transform: 'translateY(5px)' }, { transform: 'none' }] : [{ transform: 'translateY(6px) scale(.96)' }, { transform: 'translateY(-2px) scale(1.01)', offset: .7 }, { transform: 'none' }];
+        openMotion = bar.animate(frames, { duration: state.duration, easing: 'ease-out' });
+      }
+    }
+    fan.onpointerenter = event => { if (event.pointerType === 'mouse') setOpen(true); };
+    fan.onpointerleave = event => { if (event.pointerType === 'mouse') setOpen(false); };
+    fan.onfocusin = event => { if (event.target.matches(':focus-visible')) setOpen(true); };
+    fan.onfocusout = event => { if (!fan.contains(event.relatedTarget) && !fan.matches(':hover')) setOpen(false); };
+    fan.onkeydown = event => { if (event.key === 'Escape') { event.preventDefault(); button.focus(); setOpen(false); } };
+    button.onclick = event => { if (event.detail === 0 || !matchMedia('(hover: hover)').matches) setOpen(popup.hidden); };
+    slider.oninput = event => choose(Number(event.target.value));
+    if (design === 'integrada') {
+      // Measure the revealed content so labels and touch targets fit the morph.
+      new ResizeObserver(() => {
+        if (popup.offsetHeight) expandable.style.setProperty('--mx-open-height', 48 + popup.offsetHeight + 'px');
+      }).observe(popup);
+    }
+    render();
+    if (globalThis.Tweak) {
+      const tweak = new Tweak({ container: fan, onChange: () => { render(); remember(); } });
+      tweak.addSlider(state, 'width', { label: 'Ancho de la barra', min: 270, max: 340, step: 5, unit: 'px' });
+      tweak.addSelect(state, 'animation', { label: 'Movimiento al seleccionar', options: [{ label: 'Salto suave', value: 'salto' }, { label: 'Resorte', value: 'resorte' }, { label: 'Deslizamiento elástico', value: 'deslizamiento' }] });
+      tweak.addSlider(state, 'duration', { label: 'Duración de la animación', min: 180, max: 420, step: 20, unit: 'ms' });
+    }
+  });
+  globalThis.lucide?.createIcons({ attrs: { width: 21, height: 21 } });
+  window.addEventListener('openai:set_globals', event => {
+    const restored = event.detail?.globals?.widgetState?.modelContent?.fanAlternatives;
+    if (!restored) return;
+    states.forEach(({ state, render }, design) => { if (restored[design]) { restore(state, restored[design]); render(); } });
+  });
+})();
+</script>

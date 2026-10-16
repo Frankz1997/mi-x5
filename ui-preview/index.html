@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Mi X5 · Vista previa</title>
+  <link rel="stylesheet" href="reference.css">
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden">
+    <defs>
+      <symbol id="thermometer" viewBox="0 0 24 24"><path d="M9 14.5V5a3 3 0 0 1 6 0v9.5a5 5 0 1 1-6 0Z"/><path d="M12 7v10"/><circle cx="12" cy="18" r="1.5"/></symbol>
+      <symbol id="power" viewBox="0 0 24 24"><path d="M12 3v8M6.3 5.7a8 8 0 1 0 11.4 0"/></symbol>
+      <symbol id="minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+      <symbol id="snowflake" viewBox="0 0 24 24"><path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M9 4l3 3 3-3M9 20l3-3 3 3M4 10l4-1-1-4M20 14l-4 1 1 4M4 14l4 1-1 4M20 10l-4-1 1-4"/></symbol>
+      <symbol id="mode-auto-icon" viewBox="0 0 24 24"><path d="M4 9a8 8 0 0 1 14-3l2 2M20 4v4h-4M20 15a8 8 0 0 1-14 3l-2-2M4 20v-4h4M9 15l3-7 3 7M10 12.5h4"/></symbol>
+      <symbol id="mode-dry-icon" viewBox="0 0 24 24"><path d="M12 2S5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13ZM8 15a4 4 0 0 0 4 4"/></symbol>
+      <symbol id="fan-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 10c-3-3-1-8 2-8 5 0 5 6 0 9M14 12c3-3 8-1 8 2 0 5-6 5-9 0M12 14c3 3 1 8-2 8-5 0-5-6 0-9M10 12c-3 3-8 1-8-2 0-5 6-5 9 0"/></symbol>
+      <symbol id="moon" viewBox="0 0 24 24"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></symbol>
+      <symbol id="oscillation-icon" viewBox="0 0 34 24"><path d="M3 8h20a2 2 0 0 1 2 2v3.5a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V10a2 2 0 0 1 2-2Z"/><path d="M1.5 13.5h23M3 15h20M20.5 11.5H23"/><path d="M30 8v8.5M27.5 10.5L30 8l2.5 2.5M27.5 14L30 16.5l2.5-2.5"/></symbol>
+      <symbol id="shield" viewBox="0 0 24 24"><path d="m12 3 7 3v6c0 4-4 7-7 9-3-2-7-5-7-9V6Z"/><path d="m8 12 3 3 5-6"/></symbol>
+      <symbol id="settings" viewBox="0 0 24 24"><path d="M3 6h8m4 0h6M3 12h3m4 0h11M3 18h11m4 0h3"/><circle cx="13" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="18" r="2"/></symbol>
+      <symbol id="back" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></symbol>
+      <symbol id="eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="wifi" viewBox="0 0 24 24"><path d="M3 8a14 14 0 0 1 18 0M6 12a9 9 0 0 1 12 0M9 16a4.5 4.5 0 0 1 6 0"/><circle cx="12" cy="20" r=".5"/></symbol>
+      <symbol id="key" viewBox="0 0 24 24"><circle cx="7" cy="11" r="4.5"/><path d="M11.5 11H22M17 11v4M21 11v6"/></symbol>
+    </defs>
+  </svg>
+  <main class="panel" aria-label="Control de Mi X5" aria-busy="false" data-tray-edge="bottom" data-tray-anchor="0.9">
+    <svg id="panel-frame" class="panel-frame" aria-hidden="true" preserveAspectRatio="none">
+      <path id="panel-outline"/>
+    </svg>
+    <div class="panel-screens">
+    <section id="controls-screen" class="panel-screen" aria-label="Controles del minisplit">
+    <header class="header">
+      <svg class="icon" aria-hidden="true"><use href="#thermometer"/></svg>
+      <span class="ambient">Habitación<strong>23°C</strong></span>
+      <button id="sleep-button" class="sleep-button control" type="button" aria-label="Modo Sueño apagado" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#moon"/></svg></button>
+      <button id="oscillation-button" class="oscillation-button control" type="button" aria-label="Desactivar oscilación vertical" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#oscillation-icon"/></svg></button>
+      <button id="power-button" class="icon-button power control" type="button" aria-label="Apagar aire" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#power"/></svg></button>
+    </header>
+    <div id="ac-scene" class="scene" data-power="false" data-airflow="fixed" role="group" aria-label="Minisplit encendido con oscilación vertical">
+      <canvas id="air-canvas" class="airflow" aria-hidden="true"></canvas>
+      <div class="mini-split">
+        <img class="body-image" src="assets/mini-split.png" width="2172" height="724" alt="" draggable="false">
+        <button id="mini-display" class="mini-display control" type="button" aria-label="Apagar display del minisplit" aria-pressed="true" data-lit="true"><span id="mini-display-value" class="mini-display-value" aria-hidden="true">23</span></button>
+        <div class="flap-hinge">
+          <svg id="flap-blade" class="flap-blade" viewBox="0 0 500 44" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="flap-face" x1="0" y1="0" x2="0" y2="1">
+                <stop stop-color="#f9faf6"/>
+                <stop offset=".45" stop-color="#e4e8e1"/>
+                <stop offset="1" stop-color="#b2bab1"/>
+              </linearGradient>
+            </defs>
+            <path d="M9 2Q250 0 491 2Q498 2 498 9V37Q498 44 491 44H9Q2 44 2 37V9Q2 2 9 2Z" fill="url(#flap-face)"/>
+            <path d="M3 31Q250 39 497 31V38Q497 44 490 44H10Q3 44 3 38Z" fill="#929e92"/>
+            <path d="M10 4Q250 2 490 4" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width=".45" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <section aria-label="Temperatura">
+      <div class="temperature-row">
+        <div class="setpoint"><span id="temperature" class="temperature">23</span><span class="unit">°C</span></div>
+      </div>
+      <div class="temperature-control">
+        <button id="temperature-down" class="icon-button control" type="button" aria-label="Bajar temperatura"><svg class="icon" aria-hidden="true"><use href="#minus"/></svg></button>
+        <input id="temperature-slider" class="control" type="range" min="16" max="32" step="1" value="23" aria-label="Temperatura deseada" aria-valuetext="23 °C">
+        <button id="temperature-up" class="icon-button control" type="button" aria-label="Subir temperatura"><svg class="icon" aria-hidden="true"><use href="#plus"/></svg></button>
+      </div>
+      <div class="limits" aria-hidden="true"><span>16°</span><span>32°</span></div>
+    </section>
+    <section class="controls" aria-label="Opciones del aire">
+      <div id="mode-control" class="mode-control">
+        <div id="mode-expandable" class="mode-expandable">
+          <button id="mode" class="tile mode-button control" type="button" aria-label="Elegir modo" aria-expanded="false" aria-controls="mode-options"><svg class="icon" aria-hidden="true"><use id="mode-icon-use" href="#snowflake"/></svg><span class="tile-label">Modo</span><span id="mode-label" class="tile-value">Frío</span></button>
+          <div id="mode-options" class="mode-options" role="group" aria-label="Modo de funcionamiento" hidden>
+            <button id="mode-cold" class="mode-option" type="button" data-mode="cold" aria-label="Frío" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#snowflake"/></svg><span>Frío</span></button>
+            <button id="mode-auto" class="mode-option" type="button" data-mode="auto" aria-label="Automático" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#mode-auto-icon"/></svg><span>Auto</span></button>
+            <button id="mode-wet" class="mode-option" type="button" data-mode="wet" aria-label="Deshumidificar" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#mode-dry-icon"/></svg><span>Seco</span></button>
+            <button id="mode-wind" class="mode-option" type="button" data-mode="wind" aria-label="Solo ventilador" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#fan-icon"/></svg><span>Vent.</span></button>
+          </div>
+        </div>
+      </div>
+      <div id="fan-control" class="fan-control">
+        <div id="fan-expandable" class="fan-expandable">
+          <button id="fan" class="tile fan-button control" type="button" aria-label="Velocidad del ventilador" aria-expanded="false" aria-controls="fan-popover"><svg class="icon" aria-hidden="true"><use href="#fan-icon"/></svg><span class="tile-label">Ventilador</span><span id="fan-label" class="tile-value">Auto</span></button>
+          <div id="fan-popover" class="fan-popover" role="group" aria-label="Velocidad del ventilador" hidden>
+            <div class="fan-slider-panel">
+              <div class="fan-track">
+                <span id="fan-knob" class="fan-knob" aria-hidden="true"></span>
+                <input id="fan-slider" type="range" min="0" max="5" step="1" value="0" aria-label="Velocidad del ventilador" aria-valuetext="Auto">
+              </div>
+              <div class="fan-steps" aria-hidden="true"><span data-fan="auto">Auto</span><span data-fan="mute" data-short-label="Sil.">Silencioso</span><span data-fan="low">Bajo</span><span data-fan="middle">Medio</span><span data-fan="high">Alto</span><span data-fan="strong">Turbo</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <span class="status-icon"><svg id="connected-icon" class="icon" aria-hidden="true"><use href="#shield"/></svg><span id="sync-spinner" class="spinner" aria-hidden="true" hidden></span></span>
+      <span id="connection-status" class="status-text" role="status">Conectado</span>
+      <button id="settings-button" class="icon-button control" type="button" aria-label="Abrir configuración" aria-controls="settings-screen"><svg class="icon" aria-hidden="true"><use href="#settings"/></svg></button>
+    </footer>
+    </section>
+    <section id="settings-screen" class="panel-screen settings-screen" aria-labelledby="settings-title" hidden inert>
+    <form id="connection-form" class="settings-form">
+      <header class="settings-heading"><button id="settings-back" class="icon-button back-button" type="button" aria-label="Volver a los controles"><svg class="icon" aria-hidden="true"><use href="#back"/></svg></button><div><span class="settings-eyebrow">MI X5</span><h2 id="settings-title">Configuración</h2></div></header>
+      <p id="connection-note" class="connection-note">Configura el equipo en tu red de casa.</p>
+      <div class="connection-fields">
+        <label class="field" for="local-ip"><span class="field-label">IP local</span><span class="field-input"><svg class="icon" aria-hidden="true"><use href="#wifi"/></svg><input id="local-ip" type="text" inputmode="decimal" value="192.168.1.50" required aria-describedby="ip-hint"></span><span id="ip-hint" class="field-hint">Dirección del minisplit en tu red.</span></label>
+        <label class="field" for="local-key"><span class="field-label">Clave local</span><span class="field-input password-field"><svg class="icon" aria-hidden="true"><use href="#key"/></svg><input id="local-key" type="password" value="0123456789abcdef" minlength="16" maxlength="16" required autocomplete="off" aria-describedby="key-hint"><button id="show-key" class="icon-button" type="button" aria-label="Mostrar clave"><svg class="icon" aria-hidden="true"><use href="#eye"/></svg></button></span><span id="key-hint" class="field-hint">Clave de 16 caracteres del equipo.</span></label>
+      </div>
+      <p class="settings-preview-note">Vista previa · datos de ejemplo, sin conexión real.</p>
+      <div class="settings-actions"><button id="cancel-settings" class="text-button" type="button">Volver</button><button class="filled-button" type="submit">Comprobar y guardar</button></div>
+    </form>
+    </section>
+    </div>
+  </main>
+  <p class="preview-note">Vista previa interactiva · datos de ejemplo</p>
+  <output id="check-result" class="preview-note" hidden></output>
+  <script src="reference.js"></script>
+</body>
+</html>
