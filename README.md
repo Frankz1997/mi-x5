@@ -1,6 +1,6 @@
 # Mi X5
 
-**Tu minisplit, a un toque.** Control local por Wi-Fi para el Mirage Inverter X5, con una interfaz animada para escritorio, app Android y widget de inicio.
+* Control local por Wi-Fi para el Mirage Inverter X5, con una interfaz animada para escritorio, app Android y widget de inicio.
 
 [English](README.en.md) · [Compilación](docs/BUILDING.md) · [Configurar un equipo](docs/DEVICE_SETUP.md) · [Protocolo y compatibilidad](docs/PROTOCOL.md)
 
